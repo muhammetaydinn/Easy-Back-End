@@ -1,6 +1,8 @@
 package com.example.Easy.Services;
 
+import com.example.Easy.Entities.NotificationEntity;
 import com.example.Easy.Models.NotificationDTO;
+import com.example.Easy.Repository.NotificationRepository;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -8,22 +10,32 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Service
+@RequiredArgsConstructor
 public class NotificationService {
+    private  final NotificationRepository notificationRepository;
+
     @Autowired
     private FirebaseMessaging firebaseMessaging;
 
     public String sendNotificationByToken(NotificationDTO notificationDTO) throws FirebaseMessagingException {
-
-        //Writing notifications into firebase, not required we can remote it later.
-        Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("Notification")
-                .document(notificationDTO.getTitle()).create(notificationDTO);
+        NotificationEntity notificationEntity = NotificationEntity.builder()
+                .uuid(UUID.randomUUID())
+                .userToken(notificationDTO.getUserToken())
+                .title(notificationDTO.getTitle())
+                .body(notificationDTO.getBody())
+                .image(notificationDTO.getImage())
+                .text("")
+                .build();
+        notificationRepository.save(notificationEntity);
 
         //build notification from notificationDTO
         Notification notification = Notification.builder()
@@ -34,7 +46,7 @@ public class NotificationService {
         Message message = Message.builder()
                 .setToken(notificationDTO.getUserToken())
                 .setNotification(notification)
-                .putAllData(notificationDTO.getData())
+                .putData("Data",notificationDTO.getBody())
                 .build();
         //firebase handles the sending procedure
         return firebaseMessaging.send(message);

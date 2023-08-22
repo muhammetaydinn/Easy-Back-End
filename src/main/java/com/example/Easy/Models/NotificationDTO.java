@@ -1,5 +1,6 @@
 package com.example.Easy.Models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import java.util.Map;
 
 @Data
+@Builder
 public class NotificationDTO {
 
     private String userToken;

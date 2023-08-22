@@ -26,4 +26,8 @@ public class NotificationController {
     public ResponseEntity getNotificationByTopic(@PathVariable("topic") String topic) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(notificationService.getMessageByTopic(topic));
     }
+    @GetMapping("test")
+    public ResponseEntity test(){
+        return ResponseEntity.ok("working");
+    }
 }
