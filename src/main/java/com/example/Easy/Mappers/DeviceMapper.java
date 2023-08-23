@@ -7,7 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface DeviceMapper {
     DeviceEntity toDeviceEntity(DeviceDTO deviceDTO);
-
     DeviceDTO toDeviceDTO(DeviceEntity deviceEntity);
 
 }

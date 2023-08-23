@@ -32,4 +32,7 @@ public class DeviceEntity {
     private DeviceType deviceType;
 
     private String deviceToken;
+
+    @OneToOne
+    private UserEntity user;
 }
