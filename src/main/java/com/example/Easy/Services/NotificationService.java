@@ -31,7 +31,6 @@ public class NotificationService {
 
     public String sendNotificationByToken(NotificationDTO notificationDTO) throws FirebaseMessagingException {
         notificationRepository.save(notificationMapper.toNotificationEntity(notificationDTO));
-
         //build notification from notificationDTO
         Notification notification = Notification.builder()
                 .setTitle(notificationDTO.getTitle())

@@ -7,6 +7,8 @@ import com.example.Easy.Repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class DeviceService {
@@ -15,5 +17,8 @@ public class DeviceService {
     private final DeviceMapper deviceMapper;
     public void addNewDevice(DeviceDTO deviceDTO) {
         deviceRepository.save(deviceMapper.toDeviceEntity(deviceDTO));
+    }
+    public void removeDeviceById(UUID deviceId) {
+        deviceRepository.deleteById(deviceId);
     }
 }

@@ -19,7 +19,7 @@ import java.util.UUID;
 @Builder
 public class NotificationDTO {
 
-    private UUID uuid;
+    private UUID notificationID;
     private String userToken;
     private String title;
     private String image;

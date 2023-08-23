@@ -3,7 +3,9 @@ package com.example.Easy.Entities;
 import com.example.Easy.Models.DeviceType;
 import com.google.firebase.database.annotations.NotNull;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.checkerframework.common.aliasing.qual.Unique;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
@@ -23,16 +25,18 @@ public class DeviceEntity {
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private UUID deviceId;
+    private UUID deviceID;
 
+    @NotNull
+    @NotBlank
     private String timeZone;
 
     @Column(columnDefinition = "enum('IOS','ANDROID')")
     @Enumerated(EnumType.STRING)
+    @NotNull
     private DeviceType deviceType;
 
+    @Unique
     private String deviceToken;
 
-    @OneToOne
-    private UserEntity user;
 }

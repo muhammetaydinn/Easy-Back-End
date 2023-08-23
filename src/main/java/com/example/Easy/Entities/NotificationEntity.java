@@ -3,6 +3,7 @@ package com.example.Easy.Entities;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.database.annotations.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
@@ -24,9 +25,10 @@ public class NotificationEntity {
         @UuidGenerator
         @JdbcTypeCode(SqlTypes.CHAR)
         @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-        private UUID uuid;
+        private UUID notificationID;
 
         @NotNull
+        @NotBlank
         private String userToken;
 
         @NotNull
@@ -35,6 +37,8 @@ public class NotificationEntity {
         @Nullable
         private String image;
 
+
         @NotNull
+        @NotBlank
         private String text;
 }

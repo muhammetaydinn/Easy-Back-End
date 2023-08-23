@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping("api/notification")
+@RequestMapping("/api/notification")
 public class NotificationController {
 
     @Autowired
@@ -21,13 +21,8 @@ public class NotificationController {
     public void postNotificationByToken(@RequestBody NotificationDTO notificationMessage) throws FirebaseMessagingException {
         notificationService.sendNotificationByToken(notificationMessage);
     }
-
     @GetMapping("{topic}")
     public ResponseEntity getNotificationByTopic(@PathVariable("topic") String topic) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(notificationService.getMessageByTopic(topic));
-    }
-    @GetMapping("test")
-    public ResponseEntity test(){
-        return ResponseEntity.ok("working");
     }
 }
