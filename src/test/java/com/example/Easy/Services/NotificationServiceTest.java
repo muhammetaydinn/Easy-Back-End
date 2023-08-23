@@ -22,7 +22,7 @@ class NotificationServiceTest {
         NotificationDTO notificationDTO = NotificationDTO.builder()
                 .userToken("ev3LWR4UTRyiZxCecDrTPH:APA91bEOMuCZkd37_xC4QCAIERdjBgxRU1k0GldC2p1DT5EcBmrPPlfZbuvn92hP1U0XhPnWLoo_O51ItqAw-RgJDvnrefoyAtvgWTTMsNJP6Yo5Ow-aDTt4F8ngHAUkQCg-bvW6V6cv")
                 .title("Title")
-                .body("First Notification")
+                .text("hi")
                 .image("")
                 .build();
         String response =

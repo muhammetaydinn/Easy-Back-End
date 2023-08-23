@@ -1,6 +1,7 @@
 package com.example.Easy.Services;
 
 import com.example.Easy.Entities.NotificationEntity;
+import com.example.Easy.Mappers.NotificationMapper;
 import com.example.Easy.Models.NotificationDTO;
 import com.example.Easy.Repository.NotificationRepository;
 import com.google.api.core.ApiFuture;
@@ -21,32 +22,26 @@ import java.util.concurrent.ExecutionException;
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
+
     private  final NotificationRepository notificationRepository;
+    private  final NotificationMapper notificationMapper;
 
     @Autowired
     private FirebaseMessaging firebaseMessaging;
 
     public String sendNotificationByToken(NotificationDTO notificationDTO) throws FirebaseMessagingException {
-        NotificationEntity notificationEntity = NotificationEntity.builder()
-                .uuid(UUID.randomUUID())
-                .userToken(notificationDTO.getUserToken())
-                .title(notificationDTO.getTitle())
-                .body(notificationDTO.getBody())
-                .image(notificationDTO.getImage())
-                .text("")
-                .build();
-        notificationRepository.save(notificationEntity);
+        notificationRepository.save(notificationMapper.toNotificationEntity(notificationDTO));
 
         //build notification from notificationDTO
         Notification notification = Notification.builder()
                 .setTitle(notificationDTO.getTitle())
-                .setBody(notificationDTO.getBody())
+                .setBody(notificationDTO.getText())
                 .build();
         //build message by using notification and a recipient token
         Message message = Message.builder()
                 .setToken(notificationDTO.getUserToken())
                 .setNotification(notification)
-                .putData("Data",notificationDTO.getBody())
+                .putData("Data",notificationDTO.getText())
                 .build();
         //firebase handles the sending procedure
         return firebaseMessaging.send(message);

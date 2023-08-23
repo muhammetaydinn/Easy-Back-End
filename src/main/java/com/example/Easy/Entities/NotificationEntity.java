@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Notification_Table")
+@Table(name = "Notifications")
 public class NotificationEntity {
         @Id
         @UuidGenerator
@@ -30,11 +30,11 @@ public class NotificationEntity {
         private String userToken;
 
         @NotNull
-        @Column(length = 50)
         private String title;
-        @NotNull
-        private String body;
+
         @Nullable
         private String image;
+
+        @NotNull
         private String text;
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping("/api/notification")
+@RequestMapping("api/notification")
 public class NotificationController {
 
     @Autowired
