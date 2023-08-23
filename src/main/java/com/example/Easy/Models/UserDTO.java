@@ -4,8 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
-@Builder
+
 @Data
+@Builder
 public class UserDTO {
     private UUID userid;
     private String name;
