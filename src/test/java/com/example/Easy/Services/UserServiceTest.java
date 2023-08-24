@@ -4,9 +4,11 @@ import com.example.Easy.Entities.UserEntity;
 import com.example.Easy.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
+@SpringBootTest
 public class UserServiceTest {
     @Autowired
     UserRepository userRepository;
@@ -17,12 +19,10 @@ public class UserServiceTest {
         System.out.println(token.length());
         UserEntity userEntity = UserEntity.builder()
                 .userid(UUID.fromString("0f14d0ab-9605-4a62-a9e4-5ed26688389b"))
+                .image("AWEWA")
                 .name("davut")
-                .image("")
-                .userToken("")
+                .userToken("QWEW")
                 .build();
         userRepository.save(userEntity);
     }
-
-
 }

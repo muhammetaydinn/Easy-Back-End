@@ -24,6 +24,7 @@ public class UserService {
 
 
     public void addNewUser(UserDTO userDTO) {
+
         UserRepository.save(UserMapper.toUserEntity(userDTO));
     }
 }
