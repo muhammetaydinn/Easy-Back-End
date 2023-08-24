@@ -20,10 +20,10 @@ class NotificationServiceTest {
     @Test
     void sendNotificationByToken() throws FirebaseMessagingException {
         NotificationDTO notificationDTO = NotificationDTO.builder()
-                .userToken("eYsHNOnxQ3K83vJB5vCkwQ:APA91bFp2N_MRa3penVKoSfFSCQl1er3FSZtfhTFKP-NcRWrtMIxhumE9Dp5NE2MoU2A-7Z-8XG_6LQ4r4GgPe3Nl7Q-byJBe92xbLZ3m_BGEMZb2xC_BkyDA63D_yzdqnd7RPxfJbZc")
-                .title("Title")
-                .text("hi")
-                .image("image")
+                .userToken("e_5VwVHYRJG8J3GrGdxmol:APA91bG09ABYw_kKPPBZUCCpZddOPzB2b9Edyhl562UCSqwd4uLSFmFMoDwiE0fyobpZ4TkCGw-dbIs_dyHf3rp5Gu05hCN2X-_y18GTWoR0_ZKnuIvWlh3dmIUnYqRiJEmKOf8ar7oU ")
+                .title("Omer")
+                .text("..........")
+                .image("...")
                 .build();
         String response =
                 notificationService.sendNotificationByToken(notificationDTO);

@@ -5,9 +5,7 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.database.annotations.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SerializableType;
@@ -20,6 +18,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @Table(name = "News")
 public class NewsEntity {
     @Id
@@ -42,7 +42,6 @@ public class NewsEntity {
     @NotBlank
     private String text;
 
-    @Nullable
     private String image;
 
 

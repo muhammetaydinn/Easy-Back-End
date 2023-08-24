@@ -36,7 +36,12 @@ public class DeviceEntity {
     @NotNull
     private DeviceType deviceType;
 
-    @Unique
+    @NotNull
+    @NotBlank
     private String deviceToken;
+
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(name = "deviceUser",columnDefinition = "varchar(36)")
+    private UUID userId;
 
 }

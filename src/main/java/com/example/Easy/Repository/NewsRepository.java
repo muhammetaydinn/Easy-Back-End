@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
-@Repository
+
 public interface NewsRepository extends JpaRepository<NewsEntity, UUID> {
     List<NewsEntity> findByTitle(String title);
     List<NewsEntity> findBynewsCategories(NewsCategories newsCategories);

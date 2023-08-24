@@ -17,7 +17,7 @@ public class NotificationController {
     @Autowired
     NotificationService notificationService;
 
-    @PostMapping()
+    @PostMapping
     public void postNotificationByToken(@RequestBody NotificationDTO notificationMessage) throws FirebaseMessagingException {
         notificationService.sendNotificationByToken(notificationMessage);
     }

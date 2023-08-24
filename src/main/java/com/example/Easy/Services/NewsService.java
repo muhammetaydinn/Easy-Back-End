@@ -37,6 +37,9 @@ public class NewsService {
                 .stream().map(newsMapper::toNewsDTO)
                 .collect(Collectors.toList());
     }
+    public NewsDTO getNewsById(UUID newsId) {
+        return newsMapper.toNewsDTO(newsRepository.findById(newsId).orElse(null));
+    }
 
     public void postNews(NewsDTO newsDTO) {
         newsRepository.save(newsMapper.toNewsEntity(newsDTO));
