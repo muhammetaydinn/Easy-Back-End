@@ -5,19 +5,20 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
 @Entity
-@Builder
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserEntity {
 
     @Id
@@ -26,14 +27,10 @@ public class UserEntity {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID userid;
 
-    @NotNull
     private String name;
 
     private String image;
 
-    @NotNull
     private String userToken;
 
-    @OneToMany
-    private DeviceEntity device;
 }

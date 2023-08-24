@@ -33,6 +33,5 @@ public class DeviceEntity {
 
     private String deviceToken;
 
-    @OneToOne
-    private UserEntity user;
+
 }
