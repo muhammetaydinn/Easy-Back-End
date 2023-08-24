@@ -40,7 +40,8 @@ public class NotificationService {
         Message message = Message.builder()
                 .setToken(notificationDTO.getUserToken())
                 .setNotification(notification)
-                .putData("Data",notificationDTO.getText())
+                .putData("Text",notificationDTO.getText())
+                .putData("Image",notificationDTO.getImage())
                 .build();
         //firebase handles the sending procedure
         return firebaseMessaging.send(message);

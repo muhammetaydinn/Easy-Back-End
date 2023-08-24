@@ -25,7 +25,7 @@ public class NewsEntity {
     @Id
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(name = "UUID", length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    @Column(name = "newsId", length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID newsUUID;
 
     @NotNull

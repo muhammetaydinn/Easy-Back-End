@@ -24,15 +24,15 @@ public class NewsController {
     public List<NewsDTO> getAllNews(){
         return newsService.getAllNews();
     }
-    @GetMapping("{category}")
+    @GetMapping("/category/{category}")
     public List<NewsDTO> getNewsByCategory(@PathVariable("category") NewsCategories category){
         return newsService.getNewsByCategory(category);
     }
-    @GetMapping("{title}")
-    public List<NewsDTO> getNewsByTitle(@PathVariable("category") String title){
+    @GetMapping("/title/{title}")
+    public List<NewsDTO> getNewsByTitle(@PathVariable("title") String title){
         return newsService.getNewsByTitle(title);
     }
-    @GetMapping("{author}")
+    @GetMapping("/author/{author}")
     public List<NewsDTO> getNewsByAuthor(@PathVariable("author") String title){
         return newsService.getNewsByAuthor(title);
     }

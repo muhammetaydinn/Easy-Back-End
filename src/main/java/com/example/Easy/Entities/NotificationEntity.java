@@ -8,7 +8,6 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Map;
 import java.util.UUID;
@@ -21,10 +20,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "Notifications")
 public class NotificationEntity {
+
         @Id
         @UuidGenerator
         @JdbcTypeCode(SqlTypes.CHAR)
-        @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+        @Column(name = "notificationId", length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
         private UUID notificationID;
 
         @NotNull
