@@ -13,6 +13,11 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final DeviceMapper deviceMapper;
+
+    public void deleteDevice(DeviceDTO deviceDTO){
+        deviceRepository.delete(deviceMapper.toDeviceEntity(deviceDTO));
+
+    }
     public void addNewDevice(DeviceDTO deviceDTO) {
         deviceRepository.save(deviceMapper.toDeviceEntity(deviceDTO));
     }

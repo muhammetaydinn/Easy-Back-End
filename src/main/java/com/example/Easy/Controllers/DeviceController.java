@@ -24,4 +24,8 @@ public class DeviceController {
         deviceService.addNewDevice(deviceDTO);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+    public ResponseEntity deleteDevice(@RequestBody DeviceDTO deviceDTO){
+        deviceService.deleteDevice(deviceDTO);
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
 }
