@@ -21,6 +21,7 @@ public class NotificationDTO {
 
     private UUID notificationID;
     private String userToken;
+    private String topic;
     private String title;
     private String image;
     private String text;

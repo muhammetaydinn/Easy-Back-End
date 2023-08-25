@@ -27,9 +27,9 @@ public class NotificationEntity {
         @Column(name = "notificationId", length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
         private UUID notificationID;
 
-        @NotNull
-        @NotBlank
         private String userToken;
+
+        private String topic;
 
         @NotNull
         private String title;
