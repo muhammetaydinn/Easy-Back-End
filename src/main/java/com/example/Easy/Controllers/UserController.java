@@ -17,6 +17,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity createNewUser(@RequestBody UserDTO userDTO){
+        //TODO cant bootstrap data since a real FCM is needed
         userService.createNewUser(userDTO);
         return new ResponseEntity(HttpStatus.CREATED);
     }

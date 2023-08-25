@@ -34,31 +34,25 @@ class DeviceServiceTest {
         DeviceEntity deviceEntity2 = DeviceEntity.builder()
                 .timeZone("GMT+04:00")
                 .deviceType(DeviceType.ANDROID)
-                .deviceToken("2")
+                .deviceToken("da37GPpPQR2t325Jg8sR-v:APA91bGcvhE_J3gX2udxEPJWgeR_M5e4y_jXpWlNozJnann2493qPn_1mewKchPvigMofwSLBH5PAr-msEL8DZbvURberbuA6667jsk-53JPvPlK5ugbvkSlP0CBADXW8xOLAbFq5lZa")
                 .build();
 
         DeviceEntity deviceEntity3 = DeviceEntity.builder()
                 .timeZone("GMT+04:00")
                 .deviceType(DeviceType.MACOS)
-                .deviceToken("3")
+                .deviceToken("dGmSJfHQTxuXBNcMRz9Pv9:APA91bGtL-HlO088BAetJTkVc6TWQk2VpMNdNTspqvnwRziRJN-3oLIupE_ik6c8uO_b8kKP_56FibcLVdaKbcDQFV_UZ8x-tyVR9m2fMW_ZiCk3nblsX_TT7ZksxRSDPqmzg-UJRpje")
                 .build();
 
         DeviceEntity deviceEntity4 = DeviceEntity.builder()
                 .timeZone("GMT+05:00")
                 .deviceType(DeviceType.WEB)
-                .deviceToken("4")
+                .deviceToken("fgiMSYssSZu_i4DjI3wxY5:APA91bH5Ylp92cYdZVBHoEqozkbBQ1-EGQI2JMTdmReLeMUFPqNsq1T8OIvBDasBGZjI_aFTeEhQU2lAtqGKVjong8YIUvBckiHvn-GjgVbvF9I0Ih1y316xtARCr_Ys50w8HE-Fy5nC")
                 .build();
 
-        DeviceEntity deviceEntity5 = DeviceEntity.builder()
-                .timeZone("GMT+06:00")
-                .deviceType(DeviceType.WINDOWS)
-                .deviceToken("5")
-                .build();
         deviceRepository.save(deviceEntity1);
         deviceRepository.save(deviceEntity2);
         deviceRepository.save(deviceEntity3);
         deviceRepository.save(deviceEntity4);
-        deviceRepository.save(deviceEntity5);
 
     }
 

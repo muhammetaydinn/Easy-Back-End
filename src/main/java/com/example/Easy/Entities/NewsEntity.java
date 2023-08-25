@@ -12,6 +12,7 @@ import org.hibernate.type.SerializableType;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -35,14 +36,20 @@ public class NewsEntity {
 
     @NotNull
     @NotBlank
-    @Column(name = "Title")
+    @Column(name = "Title", length = 50)
     private String title;
 
     @NotNull
     @NotBlank
+    @Column(length = 400)
     private String text;
 
     private String image;
+
+    @NotNull
+    @NotBlank
+    @Column(updatable = false)
+    private LocalDateTime creationTime;
 
     @NotNull
     @JdbcTypeCode(SqlTypes.CHAR)

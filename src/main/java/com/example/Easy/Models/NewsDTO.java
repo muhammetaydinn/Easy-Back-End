@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 @Data
 @Builder
@@ -17,5 +18,7 @@ public class NewsDTO {
     private String image;
     private NewsCategories newsCategories;
     private UUID authorId;
+    private LocalDateTime creationTime;
+
 
 }

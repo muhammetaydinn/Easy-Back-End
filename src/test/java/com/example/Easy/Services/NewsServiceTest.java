@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,28 +33,32 @@ class NewsServiceTest {
         NewsDTO new1 = NewsDTO.builder()
                 .title("test1")
                 .image("https://miro.medium.com/v2/resize:fit:1358/1*cG6U1qstYDijh9bPL42e-Q.jpeg")
-                .text("bootstrap1")
+                .creationTime(LocalDateTime.now())
+                .text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget quam eu massa ultrices scelerisque. Quisque et erat lacinia, cursus tellus et, dignissim est. Ut mollis diam vitae sodales vestibulum. Donec non cursus magna, non sodales ante. Nullam quis pharetra neque. ")
                 .authorId(userDTOList.get(0).getUserId())
                 .newsCategories(NewsCategories.MACHINE_LEARNING)
                 .build();
         NewsDTO new2 = NewsDTO.builder()
                 .title("test2")
+                .creationTime(LocalDateTime.of(1990,5,22,11,11))
                 .image("https://www.mtu.edu/cs/undergraduate/software/what/images/software-engineering-banner2400.jpg")
-                .text("bootstrap2")
+                .text("Mauris turpis justo, posuere eu imperdiet eu, porta a risus. Nulla maximus mi nec mi lacinia iaculis. Donec viverra in libero a consectetur. Nullam quam turpis, mollis eget elementum vitae, tincidunt vitae tortor. Donec venenatis scelerisque urna non tristique. Nam massa eros, ")
                 .authorId(userDTOList.get(0).getUserId())
                 .newsCategories(NewsCategories.SOFTWARE_ENGINEERING)
                 .build();
         NewsDTO new3 = NewsDTO.builder()
                 .title("test3")
+                .creationTime(LocalDateTime.of(1000,8,12,20,10))
                 .image("https://d1m75rqqgidzqn.cloudfront.net/wp-data/2019/09/11134058/What-is-data-science-2.jpg")
-                .text("bootstrap3")
+                .text("vulputate ac egestas mollis, fringilla vel est. Donec sit amet nibh nisi. In ac sem ac dui pretium vulputate eu ac ligula. Pellentesque fermentum fringilla mi, id sagittis elit malesuada nec. ")
                 .authorId(userDTOList.get(1).getUserId())
                 .newsCategories(NewsCategories.DATA_SCIENCE)
                 .build();
         NewsDTO new4 = NewsDTO.builder()
                 .title("test4")
+                .creationTime(LocalDateTime.of(2000,5,10,15,48))
                 .image("https://media.geeksforgeeks.org/wp-content/cdn-uploads/20221222184908/web-development1.png")
-                .text("bootstrap4")
+                .text("Quisque egestas vulputate enim, non pharetra orci pulvinar vitae. Mauris nibh justo, laoreet eget porttitor a, blandit vel justo. Etiam eget lobortis lectus, vitae vulputate lacus. Ut ut congue sapien. Donec a tincidunt velit. Curabitur sed turpis massa. Donec interdum pulvinar ")
                 .authorId(userDTOList.get(2).getUserId())
                 .newsCategories(NewsCategories.WEB_DEVELOPMENT)
                 .build();

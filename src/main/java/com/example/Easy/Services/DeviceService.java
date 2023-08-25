@@ -4,7 +4,9 @@ import com.example.Easy.Entities.DeviceEntity;
 import com.example.Easy.Mappers.DeviceMapper;
 import com.example.Easy.Models.DeviceDTO;
 import com.example.Easy.Repository.DeviceRepository;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +17,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DeviceService {
 
+    @Autowired
+    NotificationService notificationService;
     private final DeviceRepository deviceRepository;
     private final DeviceMapper deviceMapper;
-    public void addNewDevice(DeviceDTO deviceDTO) {
+    public void addNewDevice(DeviceDTO deviceDTO) throws FirebaseMessagingException {
+        //TODO cant bootstrap data since a real FCM is needed
+        notificationService.subscribeToTopic("All",deviceDTO.getDeviceToken());
         deviceRepository.save(deviceMapper.toDeviceEntity(deviceDTO));
     }
     public void removeDeviceById(UUID deviceId) {
