@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,13 +30,25 @@ public class NewsController {
     public List<NewsDTO> getNewsByCategory(@PathVariable("category") NewsCategories category){
         return newsService.getNewsByCategory(category);
     }
+
+    @GetMapping("/category/data")
+    public HashMap<NewsCategories,Integer> getNewsData(){
+
+        //  TODO Can be further optimized, probably !!!!
+        HashMap<NewsCategories,Integer> hashMap = new HashMap<>();
+        for(NewsCategories categories: NewsCategories.values()){
+            List<NewsDTO> list =newsService.getNewsByCategory(categories);
+            hashMap.put(categories,list.size());
+        }
+        return hashMap;
+    }
     @GetMapping("/title/{title}")
     public List<NewsDTO> getNewsByTitle(@PathVariable("title") String title){
         return newsService.getNewsByTitle(title);
     }
     @GetMapping("/author/{author}")
-    public List<NewsDTO> getNewsByAuthor(@PathVariable("author") String title){
-        return newsService.getNewsByAuthor(title);
+    public List<NewsDTO> getNewsByAuthor(@PathVariable("author") UUID authorId){
+        return newsService.getNewsByAuthor(authorId);
     }
     @PostMapping()
     public ResponseEntity postNews(@RequestBody NewsDTO newsDTO){
@@ -48,6 +61,9 @@ public class NewsController {
         newsService.deletePostById(newsUUID);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+
+
 
 
 

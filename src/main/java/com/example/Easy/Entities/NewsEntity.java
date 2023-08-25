@@ -44,5 +44,9 @@ public class NewsEntity {
 
     private String image;
 
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(name = "AuthorId")
+    private UUID authorId;
+
 
 }

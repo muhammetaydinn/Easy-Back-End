@@ -16,5 +16,6 @@ public class NewsDTO {
     private String text;
     private String image;
     private NewsCategories newsCategories;
+    private UUID authorId;
 
 }

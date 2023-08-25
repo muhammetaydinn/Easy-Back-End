@@ -49,9 +49,10 @@ public class NewsService {
         newsRepository.deleteById(newsUUID);
     }
 
-    public List<NewsDTO> getNewsByAuthor(String title) {
-        //TODO will be done after user is added
-        return null;
+    public List<NewsDTO> getNewsByAuthor(UUID authorId) {
+        return newsRepository.findByAuthorId(authorId)
+                .stream().map(newsMapper::toNewsDTO)
+                .collect(Collectors.toList());
     }
 
 

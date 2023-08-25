@@ -13,5 +13,5 @@ public interface NewsRepository extends JpaRepository<NewsEntity, UUID> {
     List<NewsEntity> findByTitle(String title);
     List<NewsEntity> findBynewsCategories(NewsCategories newsCategories);
 
-    //List<NewsEntity> findByAuthor();
+    List<NewsEntity> findByAuthorId(UUID authorId);
 }
