@@ -9,41 +9,32 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
-@Table(name = "Users")
-public class UserEntity {
-
+@Table(name = "News")
+public class CommentEntity {
     @Id
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private UUID userId;
+    @Column(name = "newsId", length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    private UUID commentId;
 
     @NotNull
     @NotBlank
-    private String name;
+    private String text;
 
-    private String image;
+    @ManyToOne
+    private UserEntity author;
 
-    @NotNull
-    @NotBlank
-    private String userToken;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "name")
     @JsonIgnore
-    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
-    private List<NewsEntity> news;
+    private NewsEntity news;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
-    private List<CommentEntity> comments;
-
-    private Integer role;
 }

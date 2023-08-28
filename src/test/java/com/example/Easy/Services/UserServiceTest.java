@@ -1,5 +1,6 @@
 package com.example.Easy.Services;
 
+import com.example.Easy.Entities.UserEntity;
 import com.example.Easy.Models.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,14 @@ class UserServiceTest {
     void getAllUsers(){
         List<UserDTO> userDTOS =userService.listUsers();
         System.out.println(userDTOS);
+    }
+
+    @Test
+    void getUserById(){
+
+        List<UserDTO> userDTOS =userService.listUsers();
+        UserDTO user = userService.getUserById(userDTOS.get(0).getUserId());
+        System.out.println(user);
     }
 
 

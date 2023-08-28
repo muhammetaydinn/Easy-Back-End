@@ -1,6 +1,5 @@
 package com.example.Easy.Controllers;
 
-import com.example.Easy.Models.NewsCategories;
 import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,28 +26,12 @@ public class NewsController {
     }
 
     @GetMapping("/category/{category}")
-    public List<NewsDTO> getNewsByCategory(@PathVariable("category") NewsCategories category){
+    public List<NewsDTO> getNewsByCategory(@PathVariable("category") String category){
         return newsService.getNewsByCategory(category);
-    }
-
-    @GetMapping("/category/data")
-    public HashMap<NewsCategories,Integer> getNewsData(){
-
-        //  TODO Can be further optimized, probably !!!!
-        HashMap<NewsCategories,Integer> hashMap = new HashMap<>();
-        for(NewsCategories categories: NewsCategories.values()){
-            List<NewsDTO> list =newsService.getNewsByCategory(categories);
-            hashMap.put(categories,list.size());
-        }
-        return hashMap;
     }
     @GetMapping("/title/{title}")
     public List<NewsDTO> getNewsByTitle(@PathVariable("title") String title){
         return newsService.getNewsByTitle(title);
-    }
-    @GetMapping("/author/{author}")
-    public List<NewsDTO> getNewsByAuthor(@PathVariable("author") UUID authorId){
-        return newsService.getNewsByAuthor(authorId);
     }
     @PostMapping()
     public ResponseEntity postNews(@RequestBody NewsDTO newsDTO){

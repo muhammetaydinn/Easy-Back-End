@@ -1,11 +1,12 @@
 package com.example.Easy.Entities;
 
-import com.example.Easy.Models.NewsCategories;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.database.annotations.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SerializableType;
@@ -13,6 +14,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,31 +32,31 @@ public class NewsEntity {
     private UUID newsUUID;
 
     @NotNull
-    @Column(name = "Categories",columnDefinition = "enum('SOFTWARE_ENGINEERING', 'MACHINE_LEARNING','DATA_SCIENCE','WEB_DEVELOPMENT')")
-    @Enumerated(EnumType.STRING)
-    private NewsCategories newsCategories;
-
-    @NotNull
     @NotBlank
     @Column(name = "Title", length = 50)
     private String title;
 
     @NotNull
     @NotBlank
-    @Column(length = 400)
+    @Column(columnDefinition = "LONGTEXT")
     private String text;
 
     private String image;
 
     @NotNull
-    @NotBlank
     @Column(updatable = false)
     private LocalDateTime creationTime;
 
     @NotNull
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(name = "AuthorId")
-    private UUID authorId;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "Author")
+    private UserEntity author;
 
+    private String category;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "news",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    private List<CommentEntity> comments;
 
 }

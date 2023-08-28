@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController("/api/user")
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     UserService userService;
@@ -31,7 +32,7 @@ public class UserController {
         return userService.listUsers();
     }
 
-    @GetMapping("{userId}")
+    @GetMapping("/{userId}")
     public UserDTO getUserById(@PathVariable("userId") UUID userId){
         return userService.getUserById(userId);
     }
