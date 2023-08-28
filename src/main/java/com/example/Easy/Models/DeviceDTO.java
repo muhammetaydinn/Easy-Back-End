@@ -12,7 +12,7 @@ import java.util.UUID;
 @Builder
 public class DeviceDTO {
 
-    private UUID deviceId;
+    private UUID deviceID;
     private String timeZone;
     private DeviceType deviceType;
     private String deviceToken;

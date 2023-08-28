@@ -32,8 +32,6 @@ public class EasyApplication {
 	}
 
 	public static void main(String[] args) {
-
-
 		SpringApplication.run(EasyApplication.class, args);
 	}
 
