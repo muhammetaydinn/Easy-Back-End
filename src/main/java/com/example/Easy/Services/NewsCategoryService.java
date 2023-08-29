@@ -1,8 +1,10 @@
 package com.example.Easy.Services;
 
 import com.example.Easy.Entities.NewsCategoryEntity;
+import com.example.Easy.Entities.NewsEntity;
 import com.example.Easy.Mappers.NewsCategoryMapper;
 import com.example.Easy.Models.NewsCategoryDTO;
+import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Repository.NewsCategoryRepository;
 import com.example.Easy.Repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +29,10 @@ public class NewsCategoryService {
         return newsCategoryMapper.toNewsCategoryDTO(newsCategoryRepository.findById(categoryId).orElse(null));
     }
 
-    public List<String> getAllCategories() {
-        List<NewsCategoryDTO> newsCategoryDTOS =newsCategoryRepository.findAll()
+    public List<NewsCategoryDTO> getAllCategories() {
+        return newsCategoryRepository.findAll()
                 .stream().map(newsCategoryMapper::toNewsCategoryDTO)
                 .collect(Collectors.toList());
-        Set<String> categories = new HashSet<>();
-
-        for (NewsCategoryDTO elm: newsCategoryDTOS)
-            categories.add(elm.getName());
-        return List.copyOf(categories);
     }
 
     public List<NewsCategoryDTO> getAllRoots() {
@@ -67,5 +64,14 @@ public class NewsCategoryService {
             map.put(news.getName(),recursive(children));
         }
         return map;
+    }
+
+    public Set<NewsEntity> getCategoryNews(NewsCategoryDTO newsCategoryDTO) {
+        Set<NewsEntity> newsEntities = new HashSet<>(Set.copyOf(newsCategoryDTO.getNews()));
+        for(NewsCategoryEntity children: newsCategoryDTO.getChildren()){
+            if(!children.getChildren().isEmpty())
+                newsEntities.addAll(getCategoryNews(newsCategoryMapper.toNewsCategoryDTO(children)));
+        }
+        return newsEntities;
     }
 }

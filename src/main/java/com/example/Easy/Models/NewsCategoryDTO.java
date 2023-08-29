@@ -1,6 +1,7 @@
 package com.example.Easy.Models;
 
 import com.example.Easy.Entities.NewsCategoryEntity;
+import com.example.Easy.Entities.NewsEntity;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class NewsCategoryDTO {
     private String name;
     private NewsCategoryEntity parent;
     private Set<NewsCategoryEntity> children;
+    private List<NewsEntity> news;
 }

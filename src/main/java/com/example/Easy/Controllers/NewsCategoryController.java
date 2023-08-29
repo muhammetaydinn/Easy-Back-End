@@ -4,6 +4,7 @@ import com.example.Easy.Models.NewsCategoryDTO;
 import com.example.Easy.Services.NewsCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +23,14 @@ public class NewsCategoryController {
     }
 
     @GetMapping
-    public List<String> getAllCategories(){
+    public List<NewsCategoryDTO> getAllCategories(){
         return newsCategoryService.getAllCategories();
     }
+
+    @GetMapping("/{categoryId}")
+    public NewsCategoryDTO getCategoryById(@PathVariable("categoryId") Long categoryId){
+        return  newsCategoryService.getNewsCategoryById(categoryId);
+    }
+
 
 }

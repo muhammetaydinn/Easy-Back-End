@@ -26,8 +26,12 @@ public class UserController {
     public void deleteUserById(@PathVariable("userId")UUID userId){
         userService.deleteUser(userId);
     }
+    @PatchMapping("/{userId}")
+    public void patchUserById(@PathVariable("userId") UUID userId,@RequestBody UserDTO userDTO){
+        userService.patchUserById(userId,userDTO);
 
-    @GetMapping
+    }
+    @GetMapping("/all")
     public List<UserDTO> listUsers(){
         return userService.listUsers();
     }

@@ -21,6 +21,14 @@ class NewsCategoryServiceTest {
     @Autowired
     NewsCategoryMapper newsCategoryMapper;
 
+
+    @Test
+    void bootstrap(){
+        addCategoryTest();
+        addSubCategory();
+        subsub();
+    }
+
     @Test
     void addCategoryTest(){
         NewsCategoryDTO cat1 = NewsCategoryDTO.builder()
@@ -78,7 +86,7 @@ class NewsCategoryServiceTest {
 
     @Test
     void getAllCategories(){
-        List<String> newsCategoryDTOS = newsCategoryService.getAllCategories();
+        List<NewsCategoryDTO> newsCategoryDTOS = newsCategoryService.getAllCategories();
         System.out.println(newsCategoryDTOS);
     }
     @Test
@@ -87,6 +95,13 @@ class NewsCategoryServiceTest {
         System.out.println(newsCategoryDTOS);
         Map map = newsCategoryService.mapjson();
         System.out.println(map);
+    }
+
+    @Test
+    void getCategoryById(){
+        NewsCategoryDTO newsCategoryDTO = newsCategoryService.getNewsCategoryById(2L);
+        System.out.println(newsCategoryDTO.getNews());
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.Easy.Models;
 
 import com.example.Easy.Entities.CommentEntity;
+import com.example.Easy.Entities.NewsCategoryEntity;
 import com.example.Easy.Entities.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
@@ -21,7 +22,7 @@ public class NewsDTO {
     private String image;
     private UserEntity author;
     private LocalDateTime creationTime;
-    private String category;
+    private NewsCategoryEntity category;
     private List<CommentEntity> comments;
 
 }

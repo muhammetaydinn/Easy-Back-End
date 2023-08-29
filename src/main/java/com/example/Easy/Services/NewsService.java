@@ -2,15 +2,19 @@ package com.example.Easy.Services;
 
 import com.example.Easy.Entities.NewsEntity;
 import com.example.Easy.Entities.UserEntity;
+import com.example.Easy.Mappers.NewsCategoryMapper;
 import com.example.Easy.Mappers.NewsMapper;
+import com.example.Easy.Models.NewsCategoryDTO;
 import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,6 +23,10 @@ import java.util.stream.Collectors;
 public class NewsService {
     @Autowired
     UserService userService;
+    @Autowired
+    NewsCategoryMapper newsCategoryMapper;
+    @Autowired
+    NewsCategoryService newsCategoryService;
 
     private final NewsRepository newsRepository;
     private final NewsMapper newsMapper;
@@ -47,13 +55,11 @@ public class NewsService {
     }
 
 
-
-
-
-
-    public List<NewsDTO> getNewsByCategory(String category) {
-        return newsRepository.findByCategory(category)
-                .stream().map(newsMapper::toNewsDTO)
-                .collect(Collectors.toList());
+    public Set<NewsEntity> getNewsByCategoryId(Long category) {
+        NewsCategoryDTO newsCategoryDTO = newsCategoryService.getNewsCategoryById(category);
+        Set<NewsEntity> newsEntityList = newsCategoryService.getCategoryNews(newsCategoryDTO);
+        return newsEntityList;
     }
+
+
 }

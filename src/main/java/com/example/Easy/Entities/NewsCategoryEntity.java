@@ -1,5 +1,6 @@
 package com.example.Easy.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,10 +28,16 @@ public class NewsCategoryEntity {
 
     private String name;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private NewsCategoryEntity parent;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "parent",fetch = FetchType.EAGER)
     private Set<NewsCategoryEntity> children;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
+    private List<NewsEntity> news;
 
 }

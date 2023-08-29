@@ -1,5 +1,6 @@
 package com.example.Easy.Services;
 
+import com.example.Easy.Entities.UserEntity;
 import com.example.Easy.Mappers.UserMapper;
 import com.example.Easy.Models.UserDTO;
 import com.example.Easy.Repository.UserRepository;
@@ -38,5 +39,19 @@ public class UserService {
 
     public UserDTO getUserById(UUID userId) {
         return userMapper.toUserDTO(userRepository.findById(userId).orElse(null));
+    }
+    public void patchUserById(UUID userId, UserDTO userDTO) {
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        if(user==null)
+                return;
+        if(userDTO.getUserToken()!=null && !userDTO.getUserToken().equals(""))
+            user.setUserToken(userDTO.getUserToken());
+        if(userDTO.getName()!=null && !userDTO.getName().equals(""))
+            user.setName(userDTO.getName());
+        if(userDTO.getImage()!=null && !userDTO.getName().equals(""))
+            user.setImage(userDTO.getImage());
+        if(userDTO.getRole()!=null)
+            user.setRole(userDTO.getRole());
+        userRepository.save(user);
     }
 }

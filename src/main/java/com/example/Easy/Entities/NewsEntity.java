@@ -1,6 +1,5 @@
 package com.example.Easy.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.database.annotations.Nullable;
 import jakarta.persistence.*;
@@ -49,14 +48,13 @@ public class NewsEntity {
 
     @NotNull
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "Author")
     private UserEntity author;
 
-    private String category;
+    @ManyToOne
+    private NewsCategoryEntity category;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "news",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "news",fetch = FetchType.EAGER)
     private List<CommentEntity> comments;
 
 }

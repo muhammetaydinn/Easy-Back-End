@@ -1,5 +1,7 @@
 package com.example.Easy.Controllers;
 
+import com.example.Easy.Entities.NewsEntity;
+import com.example.Easy.Models.NewsCategoryDTO;
 import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -25,10 +28,12 @@ public class NewsController {
         return newsService.getAllNews();
     }
 
-    @GetMapping("/category/{category}")
-    public List<NewsDTO> getNewsByCategory(@PathVariable("category") String category){
-        return newsService.getNewsByCategory(category);
+    @GetMapping("/category/{categoryId}")
+    public Set<NewsEntity> getNewsByCategory(@PathVariable("categoryId") Long categoryId){
+        return newsService.getNewsByCategoryId(categoryId);
     }
+
+
     @GetMapping("/title/{title}")
     public List<NewsDTO> getNewsByTitle(@PathVariable("title") String title){
         return newsService.getNewsByTitle(title);

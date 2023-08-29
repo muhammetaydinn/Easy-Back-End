@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,9 +40,9 @@ public class DeviceService {
         DeviceEntity deviceEntity = deviceRepository.findById(deviceId).orElse(null);
         if(deviceEntity==null)
                 return;
-        if(deviceDTO.getDeviceToken()!=null & deviceDTO.getDeviceToken()!="")
+        if(deviceDTO.getDeviceToken()!=null & !Objects.equals(deviceDTO.getDeviceToken(), ""))
             deviceEntity.setDeviceToken(deviceDTO.getDeviceToken());
-        if(deviceDTO.getTimeZone()!=null & deviceDTO.getDeviceToken()!="")
+        if(deviceDTO.getTimeZone()!=null & !Objects.equals(deviceDTO.getDeviceToken(), ""))
             deviceEntity.setTimeZone(deviceDTO.getTimeZone());
         if(deviceDTO.getDeviceType()!=null)
             deviceEntity.setDeviceType(deviceDTO.getDeviceType());
