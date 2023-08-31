@@ -1,12 +1,21 @@
 package com.example.Easy.Services;
 
-import com.example.Easy.Entities.UserEntity;
+import com.example.Easy.Entities.*;
 import com.example.Easy.Mappers.UserMapper;
+import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Models.UserDTO;
+import com.example.Easy.Repository.NewsRepository;
+import com.example.Easy.Repository.NotificationRepository;
+import com.example.Easy.Repository.RecordsRepository;
 import com.example.Easy.Repository.UserRepository;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.kafka.config.TopicBuilder;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,24 +26,59 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
+    private final KafkaTemplate<String,String> kafkaTemplate;
+    private final NewsRepository newsRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    public void createNewUser(UserDTO userDTO){
+    private final RecordsRepository recordsRepository;
+
+    public UserDTO createNewUser(UserDTO userDTO){
         //TODO cant since a real FCM token is needed
         //notificationService.subscribeToTopic("All",userDTO.getUserToken());
-        userRepository.save(userMapper.toUserEntity(userDTO));
+        UserEntity user = userRepository.save(userMapper.toUserEntity(userDTO));
+        NewTopic topic = TopicBuilder.name(user.getUserId().toString()).build();
+        return userMapper.toUserDTO(user);
     }
+    private final static int DEFAULT_PAGE=0;
+    private final static int DEFAULT_PAGE_SIZE=25;
+    private final static String DEFAULT_SORT="name";
+    public PageRequest buildPageRequest(Integer pageNumber, Integer pageSize, String sortBy){
+        // if not initilized set it to default
 
+        int queryPageNumber;
+        int queryPageSize;
+        String querySortBy;
+
+        if(pageNumber!=null && pageNumber>0)
+            queryPageNumber = pageNumber-1; //it is 0 indexed, for first page, number is 1.
+        else
+            queryPageNumber=DEFAULT_PAGE;
+
+        if(pageSize==null)
+            queryPageSize=DEFAULT_PAGE_SIZE;
+        else
+            queryPageSize=pageSize;
+        //setting a max size
+        if(queryPageSize>100)
+            queryPageSize=100;
+
+        if(sortBy!=null && !sortBy.equals(""))
+            querySortBy=sortBy;
+        else
+            querySortBy=DEFAULT_SORT;
+
+        Sort sort = Sort.by(Sort.Order.desc(querySortBy));
+        return PageRequest.of(queryPageNumber,queryPageSize,sort);
+
+    }
     public void deleteUser(UUID userId){
         userRepository.deleteById(userId);
     }
 
-    public List<UserDTO> listUsers() {
-        return userRepository.findAll()
-                .stream().map(userMapper::toUserDTO)
-                .collect(Collectors.toList());
+    public Page<UserDTO> listUsers(Integer pageNumber, Integer pageSize, String sortBy) {
+        PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
+        return userRepository.findAll(pageRequest).map(userMapper::toUserDTO);
     }
 
     public UserDTO getUserById(UUID userId) {
@@ -62,21 +106,47 @@ public class UserService {
         userFollowed.getFollowers().add(userFollowing);
         userRepository.save(userFollowing);
         userRepository.save(userFollowed);
+        NotificationEntity notificationEntity = NotificationEntity.builder()
+                .text(userFollowing.getName()+" has followed you")
+                .title("follow")
+                .build();
+        kafkaTemplate.send(userFollowed.getUserId().toString(),userFollowing.getName()+" has followed you");
+        notificationRepository.save(notificationEntity);
+    }
+    public void unfollowUserById(UUID userId, UserDTO userDTO) {
+        UserEntity userFollowing = userRepository.findById(userDTO.getUserId()).orElse(null);
+        UserEntity userFollowed = userRepository.findById(userId).orElse(null);
+        userFollowing.getFollowing().remove(userFollowed);
+        userFollowed.getFollowers().remove(userFollowing);
+        userRepository.save(userFollowing);
+        userRepository.save(userFollowed);
     }
 
-    public List<UserDTO> getAllFollowers(UUID userId){
+    public Page<UserDTO> getAllFollowers(UUID userId, Integer pageNumber, Integer pageSize, String sortBy){
+        PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
         UserEntity user = userRepository.findById(userId).orElse(null);
-        return user.getFollowers()
+        List<UserDTO> users = user.getFollowers()
                 .stream().map(userMapper::toUserDTO)
                 .collect(Collectors.toList());
+        return new PageImpl<>(users,pageRequest,users.size());
 
     }
 
-    public List<UserDTO> getAllFollowing(UUID userId) {
+    public Page<UserDTO> getAllFollowing(UUID userId, Integer pageNumber, Integer pageSize, String sortBy) {
+        PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
         UserEntity user = userRepository.findById(userId).orElse(null);
-        return user.getFollowing()
+        List<UserDTO> users= user.getFollowing()
                 .stream().map(userMapper::toUserDTO)
                 .collect(Collectors.toList());
-
+        return new PageImpl<>(users,pageRequest,users.size());
     }
+
+
+    public void readNews(UUID userId, NewsDTO newsDTO) {
+        // TODO definitely needs to be optimized
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        NewsEntity news = newsRepository.findById(newsDTO.getNewsUUID()).orElse(null);
+        List<RecordsEntity> records = recordsRepository.findByUser(user);
+    }
+
 }

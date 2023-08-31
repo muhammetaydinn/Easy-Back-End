@@ -5,11 +5,9 @@ import com.google.firebase.database.annotations.NotNull;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.h2.engine.User;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.Set;
@@ -59,4 +57,8 @@ public class UserEntity {
 
     @ManyToMany(mappedBy = "following")
     private Set<UserEntity> followers;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<RecordsEntity> userRecords;
+
 }

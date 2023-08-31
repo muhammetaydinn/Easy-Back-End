@@ -24,7 +24,7 @@ class CommentServiceTest {
     @Test
     void commentPostTest() {
         NewsDTO newsDTO = newsService.getAllNews(1, 25, "creationTime").toList().get(0);
-        UserDTO userDTO = userService.listUsers().get(1);
+        UserDTO userDTO = userService.listUsers(1, 25, "name").get(1);
         CommentDTO commentDTO = CommentDTO.builder()
                 .text("hi")
                 .news(newsMapper.toNewsEntity(newsDTO))

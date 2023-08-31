@@ -1,15 +1,14 @@
 package com.example.Easy.Services;
 
-import com.example.Easy.Entities.UserEntity;
 import com.example.Easy.Models.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class UserServiceTest {
 
@@ -61,15 +60,15 @@ class UserServiceTest {
     }
     @Test
     void getAllUsers(){
-        List<UserDTO> userDTOS =userService.listUsers();
+        Page<UserDTO> userDTOS =userService.listUsers(1, 25, "name");
         System.out.println(userDTOS);
     }
 
     @Test
     void getUserById(){
 
-        List<UserDTO> userDTOS =userService.listUsers();
-        UserDTO user = userService.getUserById(userDTOS.get(0).getUserId());
+        Page<UserDTO> userDTOS =userService.listUsers(1, 25, "name");
+        UserDTO user = userService.getUserById(userDTOS.toList().get(0).getUserId());
         System.out.println(user);
     }
 

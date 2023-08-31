@@ -1,16 +1,14 @@
 package com.example.Easy.Controllers;
 
-import com.example.Easy.Entities.DeviceEntity;
 import com.example.Easy.Models.DeviceDTO;
 import com.example.Easy.Services.DeviceService;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -34,8 +32,10 @@ public class DeviceController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping
-    public List<DeviceDTO> listAllDevices(){
-        return deviceService.listAllDevices();
+    public Page<DeviceDTO> listAllDevices(@RequestParam(required = false) Integer pageNumber,
+                                          @RequestParam(required = false) Integer pageSize,
+                                          @RequestParam(required = false) String sortBy){
+        return deviceService.listAllDevices(pageNumber, pageSize, sortBy);
     }
 
     @PatchMapping("{deviceId}")

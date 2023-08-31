@@ -1,19 +1,13 @@
 package com.example.Easy.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.firebase.database.annotations.NotNull;
-import com.google.firebase.database.annotations.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SerializableType;
 import org.hibernate.type.SqlTypes;
-import org.springframework.transaction.annotation.Propagation;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +24,7 @@ public class NewsEntity {
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(name = "newsId", length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private UUID newsUUID;
+    private UUID newsId;
 
     @NotNull
     @NotBlank
@@ -60,6 +54,8 @@ public class NewsEntity {
     @OneToMany(mappedBy = "news",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CommentEntity> comments;
 
+    @OneToMany(mappedBy = "news",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<RecordsEntity> newsRecord;
 
 
 }

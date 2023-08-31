@@ -4,13 +4,18 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.kafka.core.KafkaAdmin;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 @SpringBootApplication
 public class EasyApplication {
@@ -30,9 +35,12 @@ public class EasyApplication {
 				.build();
 		return FirebaseApp.initializeApp(options);
 	}
+	@Bean
+	public KafkaAdmin admin() {
+		return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"));
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(EasyApplication.class, args);
 	}
-
 }

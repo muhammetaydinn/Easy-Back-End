@@ -1,6 +1,7 @@
 package com.example.Easy.Services;
 
 import com.example.Easy.Entities.NewsEntity;
+import com.example.Easy.Entities.UserEntity;
 import com.example.Easy.Mappers.NewsMapper;
 import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Repository.NewsCategoryRepository;
@@ -9,6 +10,7 @@ import com.example.Easy.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class NewsService {
     private final UserRepository userRepository;
     private final NewsRepository newsRepository;
     private final NewsMapper newsMapper;
+    private final KafkaTemplate<String,String> kafkaTemplate;
 
     private final static int DEFAULT_PAGE=0;
     private final static int DEFAULT_PAGE_SIZE=25;
@@ -33,8 +36,7 @@ public class NewsService {
 
     public Page<NewsDTO> getAllNews(Integer pageNumber, Integer pageSize, String sortBy) {
         PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
-        Page<NewsEntity> newsDTOPage = newsRepository.findAll(pageRequest);
-        return newsDTOPage.map(newsMapper::toNewsDTO);
+        return newsRepository.findAll(pageRequest).map(newsMapper::toNewsDTO);
     }
     public Page<NewsDTO> getNewsByCategoryId(Long category,Integer pageNumber, Integer pageSize, String sortBy) {
         PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
@@ -83,15 +85,17 @@ public class NewsService {
         return newsMapper.toNewsDTO(newsRepository.findById(newsId).orElse(null));
     }
     public void postNews(NewsDTO newsDTO) {
+        UserEntity author = userRepository.findById(newsDTO.getAuthor().getUserId()).orElse(null);
         NewsEntity news = NewsEntity.builder()
                 .text(newsDTO.getText())
                 .image(newsDTO.getImage())
-                .author(userRepository.findById(newsDTO.getAuthor().getUserId()).orElse(null))
+                .author(author)
                 .category(newsCategoryRepository.findById(newsDTO.getCategory().getCategoryId()).orElse(null))
                 .creationTime(newsDTO.getCreationTime())
                 .title(newsDTO.getTitle())
                 .build();
         newsRepository.save(news);
+        kafkaTemplate.send(author.getUserId()+"-followers",author.getName()+" has published a new article, titled: "+newsDTO.getTitle());
     }
 
     public void deletePostById(UUID newsUUID) {
