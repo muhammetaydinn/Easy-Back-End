@@ -3,6 +3,7 @@ package com.example.Easy.Repository;
 import com.example.Easy.Entities.NewsCategoryEntity;
 import com.example.Easy.Entities.NewsEntity;
 import com.example.Easy.Entities.UserEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,6 @@ import java.util.UUID;
 
 public interface NewsRepository extends JpaRepository<NewsEntity, UUID> {
     List<NewsEntity> findByTitle(String title);
-
+    //Page<NewsEntity> findByNewsCategoryEntity(NewsCategoryEntity category);
     List<NewsEntity> findByAuthor(UserEntity author);
 }

@@ -99,7 +99,7 @@ class NewsCategoryServiceTest {
 
     @Test
     void getCategoryById(){
-        NewsCategoryDTO newsCategoryDTO = newsCategoryService.getNewsCategoryById(2L);
+        NewsCategoryDTO newsCategoryDTO = newsCategoryService.getNewsCategoryById(4L);
         System.out.println(newsCategoryDTO.getNews());
 
     }

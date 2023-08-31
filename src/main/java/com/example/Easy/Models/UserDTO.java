@@ -10,12 +10,9 @@ import java.util.UUID;
 @Data
 @Builder
 public class UserDTO {
-
     private UUID userId;
     private String name;
     private String image;
     private String userToken;
     private Integer role;
-    private List<CommentEntity> comments;
-    private List<NewsEntity> news;
 }

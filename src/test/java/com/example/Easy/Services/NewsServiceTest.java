@@ -1,25 +1,18 @@
 package com.example.Easy.Services;
 
-import com.example.Easy.Entities.NewsEntity;
 import com.example.Easy.Mappers.NewsCategoryMapper;
-import com.example.Easy.Mappers.NewsMapper;
 import com.example.Easy.Mappers.UserMapper;
 import com.example.Easy.Models.NewsCategoryDTO;
 import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Models.UserDTO;
-import com.example.Easy.Repository.NewsRepository;
-import org.checkerframework.checker.units.qual.N;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class NewsServiceTest {
@@ -44,33 +37,33 @@ class NewsServiceTest {
                 .title("test1")
                 .image("https://miro.medium.com/v2/resize:fit:1358/1*cG6U1qstYDijh9bPL42e-Q.jpeg")
                 .creationTime(LocalDateTime.now())
-                .category(newsCategoryMapper.toNewsCategoryEntity(newsCategoryDTOS.get(0)))
+                .category(newsCategoryDTOS.get(0))
                 .text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget quam eu massa ultrices scelerisque. Quisque et erat lacinia, cursus tellus et, dignissim est.")
-                .author(userMapper.toUserEntity(userDTOList.get(0)))
+                .author(userDTOList.get(0))
                 .build();
         NewsDTO new2 = NewsDTO.builder()
                 .title("test2")
-                .category(newsCategoryMapper.toNewsCategoryEntity(newsCategoryDTOS.get(1)))
+                .category(newsCategoryDTOS.get(1))
                 .creationTime(LocalDateTime.of(2018,5,22,11,11))
                 .image("https://www.mtu.edu/cs/undergraduate/software/what/images/software-engineering-banner2400.jpg")
                 .text("Mauris turpis justo, posuere eu imperdiet eu, porta a risus. Nulla maximus mi nec mi lacinia iaculis. Donec viverra in libero a consectetur.")
-                .author(userMapper.toUserEntity(userDTOList.get(0)))
+                .author(userDTOList.get(0))
                 .build();
         NewsDTO new3 = NewsDTO.builder()
                 .title("test3")
-                .category(newsCategoryMapper.toNewsCategoryEntity(newsCategoryDTOS.get(1)))
+                .category(newsCategoryDTOS.get(1))
                 .creationTime(LocalDateTime.of(2010,8,12,20,10))
                 .image("https://d1m75rqqgidzqn.cloudfront.net/wp-data/2019/09/11134058/What-is-data-science-2.jpg")
                 .text("vulputate ac egestas mollis, fringilla vel est. Donec sit amet nibh nisi. In ac sem ac dui pretium vulputate eu ac ligula. ")
-                .author(userMapper.toUserEntity(userDTOList.get(1)))
+                .author(userDTOList.get(1))
                 .build();
         NewsDTO new4 = NewsDTO.builder()
                 .title("test4")
-                .category(newsCategoryMapper.toNewsCategoryEntity(newsCategoryDTOS.get(2)))
+                .category(newsCategoryDTOS.get(2))
                 .creationTime(LocalDateTime.of(2012,5,10,15,48))
                 .image("https://media.geeksforgeeks.org/wp-content/cdn-uploads/20221222184908/web-development1.png")
                 .text("Quisque egestas vulputate enim, non pharetra orci pulvinar vitae. Mauris nibh justo, laoreet eget porttitor a, blandit vel justo.")
-                .author(userMapper.toUserEntity(userDTOList.get(1)))
+                .author(userDTOList.get(1))
                 .build();
         newsService.postNews(new1);
         newsService.postNews(new2);
@@ -86,21 +79,21 @@ class NewsServiceTest {
                 .title("test9")
                 .image("https://www.google.com/search?q=machine+learning&sca_esv=559361602&tbm=isch&source=lnms&sa=X&ved=2ahUKEwiC5--r-PKAAxVSYPEDHVsTCq4Q_AUoAnoECAIQBA&biw=1728&bih=931&dpr=2#imgrc=MljwM1234Xl_pM")
                 .text("bootstrap9")
-                .author(userMapper.toUserEntity(userDTO))
+                .author(userDTO)
                 .build();
         newsService.postNews(new1);
     }
 
     @Test
     void getByTitleTest() {
-        List<NewsDTO> list = newsService.getNewsByTitle("test2");
+        Page<NewsDTO> list = newsService.getNewsByTitle("test2", 1, 25, "creationTime");
         System.out.println(list);
     }
 
 
     @Test
     void getByCategoryTest() {
-        Set<NewsEntity> list = newsService.getNewsByCategoryId(1L);
+        Page<NewsDTO> list = newsService.getNewsByCategoryId(1L, 1, 25, "creationTime");
         System.out.println(list);
     }
 
@@ -109,8 +102,8 @@ class NewsServiceTest {
 
     @Test
     void getByNewsId() {
-        List<NewsDTO> newsDTOList = newsService.getAllNews();
-        NewsDTO newsDTO = newsService.getNewsById(newsDTOList.get(0).getNewsUUID());
+        Page<NewsDTO> newsDTOList = newsService.getAllNews(1, 25, "creationTime");
+        NewsDTO newsDTO = newsService.getNewsById(newsDTOList.get().toList().get(0).getNewsUUID());
         System.out.println(newsDTO);
     }
 
@@ -127,7 +120,7 @@ class NewsServiceTest {
     @Test
     void listNews() {
 
-        List<NewsDTO> newsDTOS = newsService.getAllNews();
+        Page<NewsDTO> newsDTOS = newsService.getAllNews(1, 25, "creationTime");
         System.out.println(newsDTOS);
     }
 }

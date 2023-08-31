@@ -11,6 +11,6 @@ import java.util.UUID;
 public class CommentDTO {
     private UUID commentId;
     private String text;
-    private UserEntity author;
-    private NewsEntity news;
+    private UserDTO author;
+    private NewsDTO news;
 }

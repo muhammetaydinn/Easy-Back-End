@@ -20,9 +20,8 @@ public class NewsDTO {
     private String title;
     private String text;
     private String image;
-    private UserEntity author;
+    private UserDTO author;
     private LocalDateTime creationTime;
-    private NewsCategoryEntity category;
-    private List<CommentEntity> comments;
+    private NewsCategoryDTO category;
 
 }

@@ -13,7 +13,4 @@ import java.util.UUID;
 public class NewsCategoryDTO {
     private Long categoryId;
     private String name;
-    private NewsCategoryEntity parent;
-    private Set<NewsCategoryEntity> children;
-    private List<NewsEntity> news;
 }

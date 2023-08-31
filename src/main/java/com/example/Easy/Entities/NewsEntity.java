@@ -1,5 +1,6 @@
 package com.example.Easy.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.database.annotations.Nullable;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SerializableType;
 import org.hibernate.type.SqlTypes;
+import org.springframework.transaction.annotation.Propagation;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -51,10 +53,13 @@ public class NewsEntity {
     @JoinColumn(name = "Author")
     private UserEntity author;
 
+
     @ManyToOne
     private NewsCategoryEntity category;
 
-    @OneToMany(mappedBy = "news",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "news",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CommentEntity> comments;
+
+
 
 }

@@ -54,4 +54,29 @@ public class UserService {
             user.setRole(userDTO.getRole());
         userRepository.save(user);
     }
+
+    public void followUserById(UUID userId, UserDTO userDTO) {
+        UserEntity userFollowing = userRepository.findById(userDTO.getUserId()).orElse(null);
+        UserEntity userFollowed = userRepository.findById(userId).orElse(null);
+        userFollowing.getFollowing().add(userFollowed);
+        userFollowed.getFollowers().add(userFollowing);
+        userRepository.save(userFollowing);
+        userRepository.save(userFollowed);
+    }
+
+    public List<UserDTO> getAllFollowers(UUID userId){
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        return user.getFollowers()
+                .stream().map(userMapper::toUserDTO)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<UserDTO> getAllFollowing(UUID userId) {
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        return user.getFollowing()
+                .stream().map(userMapper::toUserDTO)
+                .collect(Collectors.toList());
+
+    }
 }

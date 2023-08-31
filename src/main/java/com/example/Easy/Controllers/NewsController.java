@@ -1,18 +1,14 @@
 package com.example.Easy.Controllers;
 
 import com.example.Easy.Entities.NewsEntity;
-import com.example.Easy.Models.NewsCategoryDTO;
 import com.example.Easy.Models.NewsDTO;
 import com.example.Easy.Services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -24,19 +20,27 @@ public class NewsController {
     NewsService newsService;
 
     @GetMapping
-    public List<NewsDTO> getAllNews(){
-        return newsService.getAllNews();
+    public Page<NewsDTO> getAllNews(@RequestParam(required = false) Integer pageNumber,
+                                    @RequestParam(required = false) Integer pageSize,
+                                    @RequestParam(required = false) String sortBy){
+        return newsService.getAllNews(pageNumber, pageSize, sortBy);
     }
 
     @GetMapping("/category/{categoryId}")
-    public Set<NewsEntity> getNewsByCategory(@PathVariable("categoryId") Long categoryId){
-        return newsService.getNewsByCategoryId(categoryId);
+    public Page<NewsDTO> getNewsByCategory(@PathVariable("categoryId") Long categoryId,
+                                             @RequestParam(required = false) Integer pageNumber,
+                                             @RequestParam(required = false) Integer pageSize,
+                                             @RequestParam(required = false) String sortBy){
+        return newsService.getNewsByCategoryId(categoryId,pageNumber,pageSize,sortBy);
     }
 
 
     @GetMapping("/title/{title}")
-    public List<NewsDTO> getNewsByTitle(@PathVariable("title") String title){
-        return newsService.getNewsByTitle(title);
+    public Page<NewsDTO> getNewsByTitle(@PathVariable("title") String title,
+                                        @RequestParam(required = false) Integer pageNumber,
+                                        @RequestParam(required = false) Integer pageSize,
+                                        @RequestParam(required = false) String sortBy){
+        return newsService.getNewsByTitle(title,pageNumber,pageSize,sortBy);
     }
     @PostMapping()
     public ResponseEntity postNews(@RequestBody NewsDTO newsDTO){

@@ -33,11 +33,11 @@ public class NewsCategoryEntity {
     private NewsCategoryEntity parent;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "parent",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent",fetch = FetchType.LAZY)
     private Set<NewsCategoryEntity> children;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
     private List<NewsEntity> news;
 
 }

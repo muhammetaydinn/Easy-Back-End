@@ -42,9 +42,9 @@ public class NewsCategoryService {
     }
 
     public Map<String,Map> mapjson(){
-        List<NewsCategoryDTO> newsCategoryDTOS = getAllRoots();
+        List<NewsCategoryEntity> roots = newsCategoryRepository.findByparent(null);
         Map<String,Map> map = new HashMap<>();
-        for(NewsCategoryDTO root : newsCategoryDTOS){
+        for(NewsCategoryEntity root : roots){
             if(root.getChildren().isEmpty())
                 map.put(root.getName(),null);
             else {
@@ -64,14 +64,5 @@ public class NewsCategoryService {
             map.put(news.getName(),recursive(children));
         }
         return map;
-    }
-
-    public Set<NewsEntity> getCategoryNews(NewsCategoryDTO newsCategoryDTO) {
-        Set<NewsEntity> newsEntities = new HashSet<>(Set.copyOf(newsCategoryDTO.getNews()));
-        for(NewsCategoryEntity children: newsCategoryDTO.getChildren()){
-            if(!children.getChildren().isEmpty())
-                newsEntities.addAll(getCategoryNews(newsCategoryMapper.toNewsCategoryDTO(children)));
-        }
-        return newsEntities;
     }
 }
