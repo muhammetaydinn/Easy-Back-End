@@ -1,6 +1,7 @@
 package com.example.Easy.Controllers;
 
 import com.example.Easy.Models.NewsDTO;
+import com.example.Easy.Models.RecordsDTO;
 import com.example.Easy.Models.UserDTO;
 import com.example.Easy.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +69,17 @@ public class UserController {
         return userService.getAllFollowing(userId, 1, 25, "name");
     }
 
-    @PostMapping("/read/{userId}")
+    @PostMapping("/records/{userId}")
     public void readNews(@PathVariable("userId") UUID userId ,@RequestBody NewsDTO newsDTO){
         userService.readNews(userId,newsDTO);
     }
+
+    @GetMapping("/records/{userId}")
+    public Page<RecordsDTO> getUserRecordsById(@PathVariable("userId") UUID userId,
+                                               @RequestParam(required = false) Integer pageNumber,
+                                               @RequestParam(required = false) Integer pageSize,
+                                               @RequestParam(required = false) String sortBy){
+        return userService.getUserRecordsById(userId,pageNumber,pageSize,sortBy);
+    }
+
 }

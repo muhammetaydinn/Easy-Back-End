@@ -9,8 +9,6 @@ import com.example.Easy.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -20,7 +18,7 @@ public class CommentService {
     private final NewsRepository newsRepository;
     public void postComment(CommentDTO commentDTO) {
         CommentEntity commentEntity = CommentEntity.builder()
-                .news(newsRepository.findById(commentDTO.getNews().getNewsUUID()).orElse(null))
+                .news(newsRepository.findById(commentDTO.getNews().getNewsId()).orElse(null))
                 .author(userRepository.findById(commentDTO.getAuthor().getUserId()).orElse(null))
                 .text(commentDTO.getText())
                 .build();

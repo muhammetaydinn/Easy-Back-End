@@ -1,8 +1,13 @@
 package com.example.Easy.Services;
 
-import com.example.Easy.Entities.*;
+import com.example.Easy.Entities.NewsEntity;
+import com.example.Easy.Entities.NotificationEntity;
+import com.example.Easy.Entities.RecordsEntity;
+import com.example.Easy.Entities.UserEntity;
+import com.example.Easy.Mappers.RecordsMapper;
 import com.example.Easy.Mappers.UserMapper;
 import com.example.Easy.Models.NewsDTO;
+import com.example.Easy.Models.RecordsDTO;
 import com.example.Easy.Models.UserDTO;
 import com.example.Easy.Repository.NewsRepository;
 import com.example.Easy.Repository.NotificationRepository;
@@ -32,6 +37,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RecordsRepository recordsRepository;
+    private final RecordsMapper recordsMapper;
 
     public UserDTO createNewUser(UserDTO userDTO){
         //TODO cant since a real FCM token is needed
@@ -145,8 +151,32 @@ public class UserService {
     public void readNews(UUID userId, NewsDTO newsDTO) {
         // TODO definitely needs to be optimized
         UserEntity user = userRepository.findById(userId).orElse(null);
-        NewsEntity news = newsRepository.findById(newsDTO.getNewsUUID()).orElse(null);
-        List<RecordsEntity> records = recordsRepository.findByUser(user);
+        NewsEntity news = newsRepository.findById(newsDTO.getNewsId()).orElse(null);
+        RecordsEntity records = recordsRepository.findByUserAndNews(user,news);
+        if(records!=null) {
+            records.setRepeatedRead(records.getRepeatedRead()+1);
+            recordsRepository.save(records);
+        }else {
+            assert news != null;
+            RecordsEntity rerecords = RecordsEntity.builder()
+                    .user(user)
+                    .news(news)
+                    .newsCategory(news.getCategory())
+                    .repeatedRead(1)
+                    .build();
+            recordsRepository.save(rerecords);
+        }
     }
 
+    public Page<RecordsDTO> getUserRecordsById(UUID userId, Integer pageNumber, Integer pageSize, String sortBy) {
+        //Default sortby is only for user
+        if(sortBy==null || sortBy.equals(""))
+            sortBy="recordId";
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        List<RecordsDTO> recordsEntityList = recordsRepository.findByUser(user)
+                .stream().map(recordsMapper::toRecordsDTO)
+                .collect(Collectors.toList());
+        PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
+        return new PageImpl<>(recordsEntityList,pageRequest,recordsEntityList.size());
+    }
 }

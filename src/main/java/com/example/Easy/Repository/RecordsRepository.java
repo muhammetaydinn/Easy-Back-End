@@ -9,5 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface RecordsRepository extends JpaRepository<RecordsEntity, UUID> {
+    RecordsEntity findByUserAndNews(UserEntity user,NewsEntity news);
     List<RecordsEntity> findByUser(UserEntity user);
 }
