@@ -9,4 +9,5 @@ import java.util.List;
 public interface NewsCategoryRepository extends JpaRepository<NewsCategoryEntity, Long> {
 
     List<NewsCategoryEntity> findByparent(NewsCategoryEntity parent);
+    NewsCategoryEntity findByname(String name);
 }

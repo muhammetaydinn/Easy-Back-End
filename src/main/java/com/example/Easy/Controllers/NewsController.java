@@ -27,11 +27,11 @@ public class NewsController {
     }
 
     @GetMapping("/category/{categoryId}")
-    public Page<NewsDTO> getNewsByCategory(@PathVariable("categoryId") Long categoryId,
+    public Page<NewsDTO> getNewsByCategory(@PathVariable("categoryId") String category,
                                              @RequestParam(required = false) Integer pageNumber,
                                              @RequestParam(required = false) Integer pageSize,
                                              @RequestParam(required = false) String sortBy){
-        return newsService.getNewsByCategoryId(categoryId,pageNumber,pageSize,sortBy);
+        return newsService.getNewsByCategoryId(category,pageNumber,pageSize,sortBy);
     }
 
 

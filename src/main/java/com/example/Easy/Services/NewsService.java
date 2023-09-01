@@ -38,9 +38,9 @@ public class NewsService {
         PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
         return newsRepository.findAll(pageRequest).map(newsMapper::toNewsDTO);
     }
-    public Page<NewsDTO> getNewsByCategoryId(Long category,Integer pageNumber, Integer pageSize, String sortBy) {
+    public Page<NewsDTO> getNewsByCategoryId(String category,Integer pageNumber, Integer pageSize, String sortBy) {
         PageRequest pageRequest = buildPageRequest(pageNumber,pageSize,sortBy);
-        List<NewsDTO> newsEntities = newsCategoryRepository.findById(category).orElse(null).getNews()
+        List<NewsDTO> newsEntities = newsCategoryRepository.findByname(category).getNews()
                 .stream().map(newsMapper::toNewsDTO).collect(Collectors.toList());
         return new PageImpl<>(newsEntities,pageRequest,newsEntities.size());
     }
