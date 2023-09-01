@@ -108,16 +108,18 @@ public class UserService {
     public void followUserById(UUID userId, UserDTO userDTO) {
         UserEntity userFollowing = userRepository.findById(userDTO.getUserId()).orElse(null);
         UserEntity userFollowed = userRepository.findById(userId).orElse(null);
-        userFollowing.getFollowing().add(userFollowed);
-        userFollowed.getFollowers().add(userFollowing);
-        userRepository.save(userFollowing);
-        userRepository.save(userFollowed);
-        NotificationEntity notificationEntity = NotificationEntity.builder()
-                .text(userFollowing.getName()+" has followed you")
-                .title("follow")
-                .build();
-        kafkaTemplate.send(userFollowed.getUserId().toString(),userFollowing.getName()+" has followed you");
-        notificationRepository.save(notificationEntity);
+        boolean notExisting = userFollowing.getFollowing().add(userFollowed);
+        if(notExisting) {
+            userFollowed.getFollowers().add(userFollowing);
+            userRepository.save(userFollowing);
+            userRepository.save(userFollowed);
+            NotificationEntity notificationEntity = NotificationEntity.builder()
+                    .text(userFollowing.getName() + " has followed you")
+                    .title("follow")
+                    .build();
+            kafkaTemplate.send("Follow", userFollowed.getUserId().toString() + ":" + userFollowing.getName());
+            notificationRepository.save(notificationEntity);
+        }
     }
     public void unfollowUserById(UUID userId, UserDTO userDTO) {
         UserEntity userFollowing = userRepository.findById(userDTO.getUserId()).orElse(null);

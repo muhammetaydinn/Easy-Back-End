@@ -47,8 +47,6 @@ public class UserEntity {
     @OneToMany(mappedBy = "author",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CommentEntity> comments;
 
-    private Integer role;
-
     @ManyToMany
     @JoinTable(name = "follow",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -60,5 +58,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<RecordsEntity> userRecords;
+
+    private String email;
+    private String password;
+    private Integer role;
 
 }

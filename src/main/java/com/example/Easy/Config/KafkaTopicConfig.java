@@ -9,6 +9,6 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaTopicConfig {
     @Bean
     public NewTopic easyTopic(){
-        return TopicBuilder.name("easy").build();
+        return TopicBuilder.name("Follow").build();
     }
 }

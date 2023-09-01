@@ -95,7 +95,6 @@ public class NewsService {
                 .title(newsDTO.getTitle())
                 .build();
         newsRepository.save(news);
-        kafkaTemplate.send(author.getUserId()+"-followers",author.getName()+" has published a new article, titled: "+newsDTO.getTitle());
     }
 
     public void deletePostById(UUID newsUUID) {

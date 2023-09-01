@@ -66,7 +66,7 @@ public class UserController {
                                              @RequestParam(required = false) Integer pageNumber,
                                              @RequestParam(required = false) Integer pageSize,
                                              @RequestParam(required = false) String sortBy){
-        return userService.getAllFollowing(userId, 1, 25, "name");
+        return userService.getAllFollowing(userId, pageNumber, pageSize, sortBy);
     }
 
     @PostMapping("/records/{userId}")
